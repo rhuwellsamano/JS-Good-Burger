@@ -35,7 +35,7 @@ body {
   line-height: 1.6em;
 }
 
-.button {
+.add-to-order-button {
   display: block;
   background-color: tomato;
   padding: 10px 20px;
@@ -101,4 +101,11 @@ li{
   background: linear-gradient(to right, orange , yellow, green, cyan, blue, violet);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.grow {
+  transition: all .2s ease-in-out;
+}
+.grow:hover {
+  transform: scale(1.025);
 }
