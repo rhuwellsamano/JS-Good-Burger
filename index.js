@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const orderList = document.querySelector('#order-list')
 const burgerMenu = document.querySelector('#burger-menu')
 const customBurgerForm = document.querySelector('#custom-burger')
+const orderDiv = document.querySelector('.order')
 
 const BURGERS_URL = 'http://localhost:3000/burgers'
 
@@ -45,7 +46,7 @@ const addBurgerToOrder = (event) => {
     let nameOfAddedBurger = event.target.dataset.name
 
     orderList.innerHTML += `
-      <li>${nameOfAddedBurger} <button class="remove-button">Remove</button></li>
+      <div class="card grow grow:hover"> <div class="card-container"> 🍔 <b>${nameOfAddedBurger}</b> <button class="remove-button">Remove</button></div></div>
     `
   }
 }
@@ -113,6 +114,49 @@ const removeBurgerFromBurgerMenu = (event) => {
   }
 }
 
+// going to add Remove All, Empty Cart Button (not timing this, this is just for fun)
+const addEventListenerToOrderDivForEmptyCartButton = () => {
+  orderDiv.addEventListener('click', emptyCart)
+}
+
+const emptyCart = (event) => {
+  if(event.target.classList.contains('empty-cart-button')){
+    event.target.nextElementSibling.innerHTML = ''
+  }
+}
+
+// going to add a fun checkout button now
+const addEventListenerToOrderDivForCheckoutButton = () => {
+  orderDiv.addEventListener('click', checkoutOrder)
+}
+
+const checkoutOrder = (event) => {
+  if(event.target.classList.contains('checkout-button')){
+    orderList.innerHTML = ''
+
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    randomNumber = getRandomInt(0, 500)
+
+    alert(`YOU SPENT $${randomNumber} DOLLARS! THANK YOU!`)
+  }
+}
+
+const originalAlert = window.alert;
+window.alert = function(args) {
+  document.querySelector("html").classList.add("darkenPage");
+  setTimeout(function() {
+    originalAlert(args);
+    document.querySelector("html").classList.remove("darkenPage");
+  });
+
+}
+
+
 // finished Delete Button and it persists too. It's 10:14am. clocked at 38mins (still plus 5 from the initial setup)
 
 // CALLS
@@ -121,5 +165,7 @@ addEventListenerToBurgerMenuToAddBurgerToOrder();
 addEventListenerToOrderListForRemoveButton();
 addEventListenerToCustomBurgerForm();
 addEventListenerToBurgerMenuToRemoveBurger();
+addEventListenerToOrderDivForEmptyCartButton();
+addEventListenerToOrderDivForCheckoutButton();
 
 }) // DOMCONTENTLOADED
